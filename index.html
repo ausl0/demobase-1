@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DemoBase.io — Security Tech Demos (MVP v2)</title>
+  <title>DemoBase.io — Security Tech Demos (MVP)</title>
   <meta name="description" content="Hands-on demos for Division 28 electronic security: VMS, access control, intrusion, fire, perimeter. Compare, filter by standards, request a live demo." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -67,9 +67,114 @@
   </style>
 </head>
 <body>
-<!-- (HEADER, HERO, FILTERS, RESULTS, MODALS, and JS go here as in previous version) -->
+
+<header>
+  <div class="wrap row">
+    <a href="#" class="logo">DemoBase.io<span>Security Tech Demos</span></a>
+    <nav>
+      <button class="nav-btn primary">Request a Demo</button>
+      <button class="nav-btn">Contact</button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero wrap">
+  <h1>Explore Division 28 Security Technology</h1>
+  <p>Filter by product category, standards compliance, and vendor. Compare products side by side and request live demonstrations.</p>
+  <div class="searchbar">
+    <input type="text" class="input" placeholder="Search products...">
+  </div>
+</section>
+
+<main class="layout">
+  <aside class="filters card">
+    <div class="head"><strong>Filters</strong></div>
+    <div class="group">
+      <h4>Category</h4>
+      <label><input type="checkbox" value="VMS"> VMS</label>
+      <label><input type="checkbox" value="Access Control"> Access Control</label>
+      <label><input type="checkbox" value="Intrusion"> Intrusion</label>
+      <label><input type="checkbox" value="Perimeter"> Perimeter</label>
+    </div>
+    <div class="group">
+      <h4>Standards</h4>
+      <label><input type="checkbox" value="ONVIF"> ONVIF</label>
+      <label><input type="checkbox" value="UL 294"> UL 294</label>
+    </div>
+  </aside>
+
+  <section class="results card">
+    <div class="head"><strong>Results</strong></div>
+    <div class="grid" id="productGrid"></div>
+  </section>
+</main>
+
+<footer>
+  © 2025 DemoBase.io — MVP for Electronic Security Industry
+</footer>
+
+<!-- Compare Modal -->
+<dialog class="modal" id="compareModal">
+  <div class="dialog">
+    <div class="hd">
+      <h3>Product Comparison</h3>
+      <button class="close" onclick="closeModal()">×</button>
+    </div>
+    <div class="ct" id="compareContent"></div>
+  </div>
+</dialog>
+
 <script>
-// All the JavaScript from the MVP goes here
+const products = [
+  {name:"Genetec Security Center",category:"VMS",standards:["ONVIF"],vendor:"Genetec"},
+  {name:"LenelS2 NetBox",category:"Access Control",standards:["UL 294"],vendor:"LenelS2"},
+  {name:"Brivo Onair",category:"Access Control",standards:["UL 294"],vendor:"Brivo"},
+  {name:"Eagle Eye VMS",category:"VMS",standards:["ONVIF"],vendor:"Eagle Eye"},
+];
+
+function renderProducts(list){
+  const grid = document.getElementById("productGrid");
+  grid.innerHTML = "";
+  list.forEach(p=>{
+    const card = document.createElement("div");
+    card.className = "demo";
+    card.innerHTML = `
+      <div class="media"></div>
+      <div class="body">
+        <h3>${p.name}</h3>
+        <div class="sub">${p.vendor}</div>
+        <div class="chips">
+          <span class="chip">${p.category}</span>
+          ${p.standards.map(s=>`<span class="chip">${s}</span>`).join("")}
+        </div>
+        <div class="actions">
+          <button class="btn primary" onclick="compareProduct('${p.name}')">Compare</button>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function compareProduct(name){
+  const prod = products.find(p=>p.name===name);
+  document.getElementById("compareContent").innerHTML = `
+    <table class="table">
+      <tr><th>Name</th><td>${prod.name}</td></tr>
+      <tr><th>Category</th><td>${prod.category}</td></tr>
+      <tr><th>Vendor</th><td>${prod.vendor}</td></tr>
+      <tr><th>Standards</th><td>${prod.standards.join(", ")}</td></tr>
+    </table>
+  `;
+  document.getElementById("compareModal").setAttribute("open",true);
+}
+
+function closeModal(){
+  document.getElementById("compareModal").removeAttribute("open");
+}
+
+renderProducts(products);
 </script>
+
 </body>
 </html>
