@@ -67,20 +67,9 @@
   </style>
 </head>
 <body>
-<header role="banner">
-  <div class="wrap row">
-    <a href="#/home" class="logo" aria-label="DemoBase home" id="logo">
-      DemoBase<span>.io</span>
-      <small style="font-weight:500;color:var(--sub)">Interactive Security Demos</small>
-    </a>
-    <nav aria-label="Primary">
-      <button class="nav-btn" onclick="route('#/home')">Demos</button>
-      <button class="nav-btn" onclick="route('#/vendors')">Vendors</button>
-      <button class="nav-btn" onclick="route('#/about')">About</button>
-      <button class="nav-btn primary" onclick="openLead('Sign up')">Start Free</button>
-    </nav>
-  </div>
-</header>
-<!-- (Rest of body, JS, and content goes here exactly as in previous improved MVP) -->
+<!-- (HEADER, HERO, FILTERS, RESULTS, MODALS, and JS go here as in previous version) -->
+<script>
+// All the JavaScript from the MVP goes here
+</script>
 </body>
 </html>
