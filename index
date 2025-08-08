@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DemoBase.io — Security Tech Demos (MVP v2)</title>
+  <meta name="description" content="Hands-on demos for Division 28 electronic security: VMS, access control, intrusion, fire, perimeter. Compare, filter by standards, request a live demo." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f172a;--card:#0b1223;--muted:#1e293b;--text:#e2e8f0;--sub:#94a3b8;
+      --brand:#3b82f6;--brand-2:#22d3ee;--ok:#10b981;--warn:#f59e0b;--danger:#ef4444;
+      --border:#233047;--chip:#0d1b33;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,#0b1223,#0c1326 30%,#0f172a 60%);color:var(--text);}
+    header{position:sticky;top:0;z-index:40;background:rgba(5,10,20,.7);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .wrap{max-width:1200px;margin:0 auto;padding:16px}
+    .row{display:flex;align-items:center;gap:16px;justify-content:space-between}
+    a.logo{font-weight:800;letter-spacing:.2px;text-decoration:none;color:var(--text);display:flex;flex-direction:column;line-height:1}
+    a.logo span{font-weight:700;color:var(--brand)}
+    nav{display:flex;gap:12px;flex-wrap:wrap}
+    .nav-btn{appearance:none;border:1px solid var(--border);background:transparent;color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+    .nav-btn.primary{background:var(--brand);border-color:transparent;color:white}
+    .nav-btn:hover{border-color:var(--brand)}
+    .hero{padding:40px 16px 8px}
+    .hero h1{font-size:clamp(26px,4vw,42px);font-weight:800;line-height:1.05;margin-bottom:8px}
+    .hero p{color:var(--sub);max-width:740px;margin-bottom:18px}
+    .searchbar{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+    .input{flex:1;min-width:240px;background:#0a1324;border:1px solid var(--border);border-radius:12px;padding:12px 14px;color:var(--text)}
+    .pill{border:1px solid var(--border);border-radius:999px;padding:6px 10px;color:var(--sub);font-size:12px}
+    .layout{display:grid;grid-template-columns:280px 1fr;gap:16px;padding:8px 16px 40px}
+    @media (max-width:980px){.layout{grid-template-columns:1fr} .filters{order:2} .results{order:1} }
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px}
+    .filters{position:sticky;top:76px;height:fit-content}
+    .filters .head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--border)}
+    .filters .group{padding:12px 14px;border-top:1px solid var(--border)}
+    .filters h4{font-size:13px;letter-spacing:.3px;text-transform:uppercase;color:var(--sub);margin-bottom:8px}
+    .filters label{display:flex;gap:8px;align-items:center;margin:6px 0;color:var(--text);font-size:14px;cursor:pointer}
+    .filters input[type="checkbox"]{accent-color:var(--brand)}
+    .results .head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding:12px}
+    .demo{border-radius:14px;overflow:hidden;border:1px solid var(--border);display:flex;flex-direction:column;min-height:240px;background:linear-gradient(180deg,#101a31,#0f172a)}
+    .demo .media{height:140px;background:radial-gradient(60% 60% at 50% 10%,rgba(59,130,246,.25),transparent),linear-gradient(135deg,#1b2a4d,#121b33)}
+    .demo .body{padding:12px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
+    .demo h3{font-size:16px}
+    .sub{color:var(--sub);font-size:13px}
+    .chips{display:flex;gap:6px;flex-wrap:wrap}
+    .chip{background:var(--chip);border:1px solid var(--border);border-radius:999px;padding:4px 8px;font-size:12px;color:var(--sub)}
+    .actions{display:flex;gap:8px;margin-top:auto}
+    .btn{appearance:none;border:1px solid var(--border);background:transparent;color:var(--text);padding:8px 10px;border-radius:10px;cursor:pointer;font-weight:600;font-size:14px}
+    .btn.primary{background:var(--brand);border-color:transparent;color:white}
+    .btn.ghost{background:#0a1324}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+    .modal[open]{display:flex}
+    .dialog{width:min(980px,96vw);max-height:90vh;overflow:auto;background:var(--card);border:1px solid var(--border);border-radius:14px}
+    .dialog .hd{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--border)}
+    .dialog .ct{padding:14px}
+    .close{background:transparent;border:0;color:var(--sub);cursor:pointer;font-size:22px}
+    .table{width:100%;border-collapse:collapse;font-size:14px}
+    .table th,.table td{border:1px solid var(--border);padding:8px 10px;text-align:left;vertical-align:top}
+    .table th{background:#0a1324}
+    footer{border-top:1px solid var(--border);padding:18px 16px;color:var(--sub);text-align:center}
+  </style>
+</head>
+<body>
+<header role="banner">
+  <div class="wrap row">
+    <a href="#/home" class="logo" aria-label="DemoBase home" id="logo">
+      DemoBase<span>.io</span>
+      <small style="font-weight:500;color:var(--sub)">Interactive Security Demos</small>
+    </a>
+    <nav aria-label="Primary">
+      <button class="nav-btn" onclick="route('#/home')">Demos</button>
+      <button class="nav-btn" onclick="route('#/vendors')">Vendors</button>
+      <button class="nav-btn" onclick="route('#/about')">About</button>
+      <button class="nav-btn primary" onclick="openLead('Sign up')">Start Free</button>
+    </nav>
+  </div>
+</header>
+<!-- (Rest of body, JS, and content goes here exactly as in previous improved MVP) -->
+</body>
+</html>
